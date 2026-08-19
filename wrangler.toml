@@ -1,0 +1,9 @@
+name = "makinuki-worker-proxy"
+main = "src/index.ts"
+compatibility_date = "2026-08-17"
+
+[vars]
+CLIENT_ORIGINS = ""
+REGISTRY_URL = "https://makinuki.github.io/index.json"
+ALLOWLIST_REFRESH_SECONDS = "3600"
+EXTRA_ALLOWED_HOSTS = ""

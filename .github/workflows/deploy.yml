@@ -1,0 +1,37 @@
+name: deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11.22.0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - name: deploy to cloudflare
+        if: ${{ secrets.CF_API_TOKEN != '' && secrets.CF_ACCOUNT_ID != '' }}
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        run: pnpm deploy
+      - name: set client token secret
+        if: ${{ secrets.CF_API_TOKEN != '' && secrets.CF_ACCOUNT_ID != '' && secrets.CLIENT_TOKEN != '' }}
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLIENT_TOKEN: ${{ secrets.CLIENT_TOKEN }}
+        run: echo "$CLIENT_TOKEN" | pnpm wrangler secret put CLIENT_TOKEN
+      - name: note deploy skipped
+        if: ${{ secrets.CF_API_TOKEN == '' || secrets.CF_ACCOUNT_ID == '' }}
+        run: 'echo "Deploy skipped: set CF_API_TOKEN and CF_ACCOUNT_ID repo secrets to enable automated deploys."'

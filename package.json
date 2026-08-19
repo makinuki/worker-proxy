@@ -1,0 +1,21 @@
+{
+  "name": "makinuki-worker-proxy",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker CORS relay for MakiNuki WASM scraper sources",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260817.1",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.123.0"
+  },
+  "packageManager": "pnpm@11.22.0"
+}
