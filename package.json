@@ -2,6 +2,8 @@
   "name": "makinuki-worker-proxy",
   "version": "1.0.0",
   "description": "Cloudflare Worker CORS relay for MakiNuki WASM scraper sources",
+  "license": "MIT",
+  "author": { "name": "Byururu-sama", "url": "https://github.com/Byururu-sama" },
   "private": true,
   "type": "module",
   "scripts": {
